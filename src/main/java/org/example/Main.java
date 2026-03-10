@@ -4,14 +4,38 @@ package org.example;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     static void main() {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        IO.println(String.format("Hello and welcome!"));
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            IO.println("i = " + i);
+
+
+        MengdeTabell<Integer> tabell = new MengdeTabell<Integer>();
+
+
+        int[] nums = {1, 2, 3, 4, 5, 6, 7};
+
+        for (int num : nums) {
+            tabell.leggTil(num);
         }
+
+        tabell.print();
+        MengdeTabell<Integer> tabell2 = new MengdeTabell<Integer>();
+
+        int[] duplicateNums = {1, 1, 1, 3, 3, 3, 4, 4, 12, 13, 12, 4, 5, 6, 7};
+        for (int num : duplicateNums) {
+            tabell2.leggTil(num);
+        }
+        tabell2.print();
+
+        MengdeTabell<Integer> _snitt = (MengdeTabell<Integer>)tabell.snitt(tabell2);
+        System.out.println(_snitt);
+        _snitt.print();
+
+        MengdeTabell<Integer> tabell3 = new MengdeTabell<Integer>();
+
+        tabell3.leggTil(1);
+        tabell3.leggTil(4);
+        MengdeTabell<Integer> minus = (MengdeTabell<Integer>) _snitt.minus(tabell3);
+        minus.print();
+
+
     }
 }
