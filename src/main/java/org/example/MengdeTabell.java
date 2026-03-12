@@ -41,18 +41,33 @@ public class MengdeTabell<T> implements MengdeADT<T> {
     }
 
     @Override
-    public boolean erDelmengdeAv(MengdeADT annenMengde) {
-        return false;
+    public boolean erDelmengdeAv(MengdeADT<T> annenMengde) {
+        if (annenMengde.erTom() || erTom()) {
+            return true;
+        }
+        for (T elem : annenMengde.tilTabell()) {
+            if (!inneholder(elem) && elem != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
-    public boolean erLik(MengdeADT annenMengde) {
-        return false;
+    public boolean erLik(MengdeADT<T> annenMengde) {
+        return annenMengde.erDelmengdeAv(this) && annenMengde.antallElementer() == antall;
     }
 
     @Override
-    public boolean erDisjunkt(MengdeADT annenMengde) {
-        return false;
+    public boolean erDisjunkt(MengdeADT<T> annenMengde) {
+        boolean erDisjunkt = true;
+        if (annenMengde.antallElementer() == 0 && antall == 0) return true;
+        for (T elem : annenMengde.tilTabell()) {
+            if (this.inneholder(elem)) {
+                erDisjunkt = false;
+            }
+        }
+        return erDisjunkt;
     }
 
     @Override
@@ -67,15 +82,27 @@ public class MengdeTabell<T> implements MengdeADT<T> {
     }
 
     @Override
-    public MengdeADT union(MengdeADT annenMengde) {
-        return null;
+    public MengdeADT<T> union(MengdeADT<T> annenMengde) {
+        MengdeTabell<T> ny = new MengdeTabell<T>();
+
+        for (T elem : annenMengde.tilTabell()) {
+            if (elem!= null && inneholder(elem) || annenMengde.inneholder(elem)){
+                ny.leggTil(elem);
+            }
+        }
+        for (T elem : this.tabell) {
+            if (elem!= null && inneholder(elem) || annenMengde.inneholder(elem)){
+                ny.leggTil(elem);
+            }
+        }
+        return ny;
     }
 
     @Override
     public MengdeADT<T> minus(MengdeADT<T> annenMengde) {
-        MengdeTabell<T>  minus = new MengdeTabell<T>();
-        for(T elem : tabell){
-            if(elem != null && !annenMengde.inneholder(elem)){
+        MengdeTabell<T> minus = new MengdeTabell<T>();
+        for (T elem : tabell) {
+            if (elem != null && !annenMengde.inneholder(elem)) {
                 minus.leggTil(elem);
             }
         }
@@ -98,8 +125,8 @@ public class MengdeTabell<T> implements MengdeADT<T> {
 
         T[] ny = (T[]) new Object[newSize];
         int count = 0;
-        for(T elem : tabell){
-            if(elem != null){
+        for (T elem : tabell) {
+            if (elem != null) {
                 ny[count] = elem;
                 count++;
             }
