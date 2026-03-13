@@ -36,6 +36,14 @@ public class Main {
         MengdeTabell<Integer> minus = (MengdeTabell<Integer>) _snitt.minus(tabell3);
         minus.print();
 
+        LinkedMengde<Integer> linked = new LinkedMengde<Integer>();
+        linked.leggTilAlleFra(minus);
+
+        linked.print();
+        linked.fjern(6);
+        linked.print();
+
+
 
     }
 }

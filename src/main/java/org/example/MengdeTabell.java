@@ -45,7 +45,7 @@ public class MengdeTabell<T> implements MengdeADT<T> {
         if (annenMengde.erTom() || erTom()) {
             return true;
         }
-        for (T elem : annenMengde.tilTabell()) {
+        for (T elem : tabell) {
             if (!inneholder(elem) && elem != null) {
                 return false;
             }
@@ -55,7 +55,12 @@ public class MengdeTabell<T> implements MengdeADT<T> {
 
     @Override
     public boolean erLik(MengdeADT<T> annenMengde) {
-        return annenMengde.erDelmengdeAv(this) && annenMengde.antallElementer() == antall;
+        if (antall != annenMengde.antallElementer()) return false;
+        for (T elem : tabell) {
+            if(elem == null) continue;
+            if (!annenMengde.inneholder(elem)) return false;
+        }
+        return true;
     }
 
     @Override
@@ -86,12 +91,12 @@ public class MengdeTabell<T> implements MengdeADT<T> {
         MengdeTabell<T> ny = new MengdeTabell<T>();
 
         for (T elem : annenMengde.tilTabell()) {
-            if (elem!= null && inneholder(elem) || annenMengde.inneholder(elem)){
+            if (elem != null && inneholder(elem) || annenMengde.inneholder(elem)) {
                 ny.leggTil(elem);
             }
         }
         for (T elem : this.tabell) {
-            if (elem!= null && inneholder(elem) || annenMengde.inneholder(elem)){
+            if (elem != null && inneholder(elem) || annenMengde.inneholder(elem)) {
                 ny.leggTil(elem);
             }
         }
@@ -169,7 +174,7 @@ public class MengdeTabell<T> implements MengdeADT<T> {
 
     @Override
     public T[] tilTabell() {
-        return Arrays.copyOf(tabell, tabell.length);
+        return Arrays.copyOf(tabell, antall);
     }
 
 
