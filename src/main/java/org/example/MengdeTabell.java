@@ -57,7 +57,7 @@ public class MengdeTabell<T> implements MengdeADT<T> {
     public boolean erLik(MengdeADT<T> annenMengde) {
         if (antall != annenMengde.antallElementer()) return false;
         for (T elem : tabell) {
-            if(elem == null) continue;
+            if (elem == null) continue;
             if (!annenMengde.inneholder(elem)) return false;
         }
         return true;
@@ -90,18 +90,21 @@ public class MengdeTabell<T> implements MengdeADT<T> {
     public MengdeADT<T> union(MengdeADT<T> annenMengde) {
         MengdeTabell<T> ny = new MengdeTabell<T>();
 
+        for (T elem : this.tilTabell()) {
+            if (elem != null) {
+                ny.leggTil(elem);
+            }
+        }
+
         for (T elem : annenMengde.tilTabell()) {
-            if (elem != null && inneholder(elem) || annenMengde.inneholder(elem)) {
+            if (elem != null) {
                 ny.leggTil(elem);
             }
         }
-        for (T elem : this.tabell) {
-            if (elem != null && inneholder(elem) || annenMengde.inneholder(elem)) {
-                ny.leggTil(elem);
-            }
-        }
+
         return ny;
     }
+
 
     @Override
     public MengdeADT<T> minus(MengdeADT<T> annenMengde) {
